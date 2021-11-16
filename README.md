@@ -5,4 +5,3 @@ This repo seeks to emulate all the docking stations, bikes, and infrastructure (
 #Motivation
 
 This is the first pair programming session 
-My eddtion ..
