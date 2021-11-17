@@ -9,14 +9,19 @@ describe DockingStation do
     end
     it "should be able to show us the docked bikes" do
         bike = Bike.new("Titus")
-        bike2 = Bike.new("Waqas")
         station = DockingStation.new
         station.dock(bike)
-        station.dock(bike2)
-        expect(station.view_bikes).to eq("Titus\nWaqas")
+        expect(station.view_bikes).to eq("Titus")
     end
     it "Shouldn't release a bike when the dock is empty" do 
         station = DockingStation.new
         expect{station.release_bike}.to raise_error("There are no bikes left")
+    end
+    it "shouldn't dock a bike if docking station is full" do
+        station = DockingStation.new
+        bike = Bike.new("1")
+        station.dock(bike)
+        bike2 = Bike.new("2")
+        expect{station.dock(bike2)}.to raise_error("There is no room to dock!")
     end
 end

@@ -13,11 +13,14 @@ class DockingStation
         else 
             Bike.new
         end
-
     end
     
     def dock(x)
-        @bikelist << x 
+        if @bikelist.length == 1
+            fail "There is no room to dock!"
+        else
+            @bikelist << x 
+        end
     end
 
     def view_bikes
@@ -25,4 +28,5 @@ class DockingStation
         @bikelist.each {|i| list << "#{i.name}"} 
         return list.join("\n")                 
     end
+
 end
