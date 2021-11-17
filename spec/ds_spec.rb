@@ -1,9 +1,6 @@
 require "ds"
 
 describe DockingStation do
-    it "should release a bike that can be checked if working" do
-        expect(subject.release_bike).to respond_to(:working?)
-    end
     it "should be able to dock a bike" do
         bike = Bike.new("Titus")
         station = DockingStation.new
@@ -17,6 +14,9 @@ describe DockingStation do
         station.dock(bike)
         station.dock(bike2)
         expect(station.view_bikes).to eq("Titus\nWaqas")
-    
+    end
+    it "Shouldn't release a bike when the dock is empty" do 
+        station = DockingStation.new
+        expect{station.release_bike}.to raise_error("There are no bikes left")
     end
 end

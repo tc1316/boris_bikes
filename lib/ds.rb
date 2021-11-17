@@ -8,7 +8,12 @@ class DockingStation
     end
     
     def release_bike
-        bike = Bike.new("Placeholder")
+        if @bikelist.empty?
+            fail "There are no bikes left"
+        else 
+            Bike.new
+        end
+
     end
     
     def dock(x)
