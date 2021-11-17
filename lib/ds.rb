@@ -8,10 +8,16 @@ class DockingStation
     end
     
     def release_bike
-        bike = Bike.new
+        bike = Bike.new("Placeholder")
     end
     
     def dock(x)
-        bikelist << x 
+        @bikelist << x 
+    end
+
+    def view_bikes
+        list = []
+        @bikelist.each {|i| list << "#{i.name}"} 
+        return list.join("\n")                 
     end
 end
