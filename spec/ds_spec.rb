@@ -1,4 +1,5 @@
 require "ds"
+require "bike"
 
 describe DockingStation do
     it "should be able to dock a bike" do
@@ -8,10 +9,10 @@ describe DockingStation do
         expect(station.bikelist).to include(bike)
     end
     it "should be able to show us the docked bikes" do
-        bike = Bike.new("Titus")
+        bike = Bike.new("001")
         station = DockingStation.new
         station.dock(bike)
-        expect(station.view_bikes).to eq("Titus")
+        expect(station.view_bikes).to eq("001: Working")
     end
     it "Shouldn't release a bike when the dock is empty" do 
         station = DockingStation.new
@@ -29,4 +30,30 @@ describe DockingStation do
         station = DockingStation.new
         expect(station.capacity).to eq(20)
     end
+    it "should know if bikes are broken" do
+        station = DockingStation.new
+        bb = Bike.new
+        bb.broken
+        station.dock(bb)
+        expect(station.bikelist[0].working?).to eq(false)
+    end
+    it "should accept returning bikes whether broken or not" do
+        station = DockingStation.new
+        wb = Bike.new("001")
+        station.dock(wb)
+        bb = Bike.new("002","Broken")
+        station.dock(bb)
+        expect(station.bikelist.length).to eq(2)
+    end
+    it "should only release working bikes" do
+        station = DockingStation.new
+        wb = Bike.new("001")
+        station.dock(wb)
+        bb = Bike.new("002","Broken")
+        station.dock(bb)
+        station.release_bike(wb)
+        expect(station.bikelist).to match_array([bb])
+        expect{station.release_bike(bb)}.to raise_error("Bike selected is not working!")
+    end
+    
 end

@@ -9,11 +9,13 @@ class DockingStation
         @capacity = capacity
     end
     
-    def release_bike
+    def release_bike(bike=nil)
         if empty?
             fail "There are no bikes left"
+        elsif bike.working? == false
+            fail "Bike selected is not working!"
         else 
-            Bike.new
+            @bikelist.delete(bike)
         end
     end
 
@@ -27,8 +29,8 @@ class DockingStation
 
     def view_bikes
         list = []
-        @bikelist.each {|i| list << "#{i.name}"} 
-        return list.join("\n")                 
+        @bikelist.each {|i| list << "#{i.name}: #{i.condition}"} 
+        return list.join("|")                 
     end
 
     private
