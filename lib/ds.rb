@@ -8,18 +8,18 @@ class DockingStation
     end
     
     def release_bike
-        if @bikelist.empty?
+        if empty?
             fail "There are no bikes left"
         else 
             Bike.new
         end
     end
-    
-    def dock(x)
-        if @bikelist.length == 1
+
+    def dock(bike)
+        if full?
             fail "There is no room to dock!"
         else
-            @bikelist << x 
+            @bikelist << bike
         end
     end
 
@@ -29,4 +29,18 @@ class DockingStation
         return list.join("\n")                 
     end
 
+    private
+    def empty?
+        if @bikelist.length == 0
+            return true
+        else return false
+        end
+    end
+
+    def full?
+        if @bikelist.length == 20
+            return true
+        else return false
+        end
+    end
 end

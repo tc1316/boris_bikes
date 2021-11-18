@@ -2,7 +2,7 @@ require "ds"
 
 describe DockingStation do
     it "should be able to dock a bike" do
-        bike = Bike.new("Titus")
+        bike = Bike.new()
         station = DockingStation.new
         station.dock(bike)   
         expect(station.bikelist).to include(bike)
@@ -19,9 +19,6 @@ describe DockingStation do
     end
     it "shouldn't dock a bike if docking station is full" do
         station = DockingStation.new
-        bike = Bike.new("1")
-        station.dock(bike)
-        bike2 = Bike.new("2")
-        expect{station.dock(bike2)}.to raise_error("There is no room to dock!")
+        expect{21.times{station.dock(Bike.new)}}.to raise_error("There is no room to dock!")
     end
 end
