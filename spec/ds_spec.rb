@@ -19,6 +19,6 @@ describe DockingStation do
     end
     it "shouldn't dock a bike if docking station is full" do
         station = DockingStation.new
-        expect{21.times{station.dock(Bike.new)}}.to raise_error("There is no room to dock!")
+        expect{(DockingStation::DEFAULT_CAPACITY+1).times{station.dock(Bike.new)}}.to raise_error("There is no room to dock!")
     end
 end
