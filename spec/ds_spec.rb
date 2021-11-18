@@ -21,4 +21,12 @@ describe DockingStation do
         station = DockingStation.new
         expect{(DockingStation::DEFAULT_CAPACITY+1).times{station.dock(Bike.new)}}.to raise_error("There is no room to dock!")
     end
+    it "it should let you assign a custom capacity" do
+        station = DockingStation.new(5)
+        expect(station.capacity).to eq(5)
+    end
+    it "it should have a default capacity of 20" do
+        station = DockingStation.new
+        expect(station.capacity).to eq(20)
+    end
 end
