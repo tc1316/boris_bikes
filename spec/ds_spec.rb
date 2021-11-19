@@ -5,10 +5,8 @@ describe DockingStation do
     subject(:station) { described_class.new}
     let(:name) { "001" }
     let(:name2) { "002" }
-    let(:working) { true }
-    let(:working2) { false }
-    let(:bike) { bike = double(:bike, name: name, working: working) }
-    let(:broken_bike) { bike = double(:bike, name: name2, working: working2 ) }
+    let(:bike) { bike = double(:bike, name: name, :working? => true) }
+    let(:broken_bike) { bike = double(:bike, name: name2, :working? => false) }
 
     describe "DockingStation tests" do
         it "should be able to dock a bike" do
