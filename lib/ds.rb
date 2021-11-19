@@ -12,7 +12,7 @@ class DockingStation
     def release_bike(bike=nil)
         if empty?
             fail "There are no bikes left"
-        elsif bike.working? == false
+        elsif not bike.working
             fail "Bike selected is not working!"
         else 
             @bikelist.delete(bike)
@@ -29,7 +29,7 @@ class DockingStation
 
     def view_bikes
         list = []
-        @bikelist.each {|i| list << "#{i.name}: #{i.condition}"} 
+        @bikelist.each {|i| list << "#{i.name}: Working? #{i.working}"} 
         return list.join("|")                 
     end
 

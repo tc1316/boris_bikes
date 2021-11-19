@@ -1,20 +1,17 @@
 class Bike 
-  attr_reader :name, :condition
+  attr_reader :name
 
-  def initialize(name="N/A",condition="Working")
+  def initialize(name="N/A",working=true)
     @name = name
-    @condition = condition
+    @working = working
+  end
+
+  def report_broken
+    @working = false
   end
 
   def working?
-    if @condition == "Working"
-      return true
-    else return false
-    end
-  end
-
-  def broken
-    @condition = "Broken"
+    @working
   end
 
 end

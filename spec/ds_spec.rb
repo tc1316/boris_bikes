@@ -5,10 +5,10 @@ describe DockingStation do
     subject(:station) { described_class.new}
     let(:name) { "001" }
     let(:name2) { "002" }
-    let(:condition) { "Working"}
-    let(:broken_condition) { "Condition"}
-    let(:bike) {bike = double(:bike, name: name, condition: condition)}
-    let(:broken_bike) {bike = double(:bike, name: name2, condition: broken_condition)}
+    let(:working) { true }
+    let(:working2) { false }
+    let(:bike) { bike = double(:bike, name: name, working: working) }
+    let(:broken_bike) { bike = double(:bike, name: name2, working: working2 ) }
 
     describe "DockingStation tests" do
         it "should be able to dock a bike" do
@@ -17,7 +17,7 @@ describe DockingStation do
         end
         it "should be able to show us the docked bikes" do
             station.dock(bike)
-            expect(station.view_bikes).to eq("001: Working")
+            expect(station.view_bikes).to eq("001: Working? true")
         end
         it "Shouldn't release a bike when the dock is empty" do 
             expect{station.release_bike}.to raise_error("There are no bikes left")
@@ -33,12 +33,12 @@ describe DockingStation do
         end
         it "should know if bikes are broken" do
             station.dock(broken_bike)
-            expect(station.bikelist[0].working?).to eq(false)
+            expect(station.bikelist[0]).not_to be_working
         end
         it "should accept returning bikes whether broken or not" do
             station.dock(bike)
             station.dock(broken_bike)
-            expect(station.bikelist.length).to eq(2)
+            expect(station.bikelist).to match_array([bike,broken_bike])
         end
         it "should only release working bikes" do
             station.dock(bike)
