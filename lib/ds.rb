@@ -1,4 +1,5 @@
 require_relative "./bike.rb"
+require_relative "./van2.rb"
 
 class DockingStation
     attr_reader :bikelist, :capacity
