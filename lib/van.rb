@@ -7,52 +7,74 @@ class Van
     def initialize
         @storage = []
     end
-    
-    def take_broken_bikes(station)
-        if station.instance_of? DockingStation
-            station.bikelist.each do |bike|
-                if bike.working? == false
-                    @storage << bike
-                    station.bikelist.delete(bike)
-                end
-            end
-        else raise "That is not a station!"
+
+    def take_bikes(x) #Argument is either DockingStation instance or Garage instance
+        if is_station?(x)
+            take_broken_bikes(x)
+        elsif is_garage?(x)
+            take_working_bikes(x)
+        else raise "You have not selected a station or garage to take bikes from!"
         end
     end
     
-    def return_working_bikes(station)
-        if station.instance_of? DockingStation
-            @storage.each do |bike|
-                if bike.working?
-                    @storage.delete(bike)
-                    station.bikelist << bike
-                end
+    def take_working_bikes(x)
+        get_bikelist_or_holding(x).each do |bike|
+            if bike.working?
+                @storage << bike
+                get_bikelist_or_holding(x).delete(bike)
             end
-        else raise "That is not a station!"
         end
     end
     
-    def take_working_bikes(garage)
-        if garage.instance_of? Garage
-            garage.holding.each do |bike|
-                if bike.working?
-                    garage.holding.delete(bike)
-                    @storage << bike
-                end
+    def take_broken_bikes(x)
+        get_bikelist_or_holding(x).each do |bike|
+            if bike.working? == false
+                @storage << bike
+                get_bikelist_or_holding(x).delete(bike)
             end
-        else raise "That is not a garage!"
         end
     end
     
-    def return_broken_bikes(garage)
-        if garage.instance_of? Garage
-            @storage.each do |bike|
-                if bike.working? == false
-                    @storage.delete(bike)
-                    garage.holding << bike
-                end
-            end
-        else raise "That is not a garage!"
+    def return_bikes(x) #Argument is either DockingStation instance or Garage instance
+        if is_station?(x)
+            return_working_bikes(x)
+        elsif is_garage?(x)
+            return_broken_bikes(x)
+        else raise "You have not selected a station or garage to return bikes to!"
         end
     end
+    
+    def return_working_bikes(x)
+        get_bikelist_or_holding(x).each do |bike|
+            if bike.working?
+                @storage.delete(bike)
+                get_bikelist_or_holding(x) << bike
+            end
+        end
+    end
+    
+    def return_broken_bikes(x)
+        get_bikelist_or_holding(x).each do |bike|
+            if bike.working? == false
+                @storage.delete(bike) 
+                get_bikelist_or_holding(x) << bike
+            end
+        end
+    end
+    
+    
+    private
+    
+    def is_station?(x)
+        return true if x.instance_of? DockingStation
+    end
+    
+    def is_garage?(x)
+        return true if x.instance_of? Garage
+    end
+
+    def get_bikelist_or_holding(x) #Returns first instance variable of DockingStation or Garage class, which are bikelist and holding respectively
+        return x.instance_variable_get(x.instance_variables[0]) 
+    end
+    
 end
