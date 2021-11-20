@@ -16,12 +16,6 @@ class DockingStation
         add_bike(bike)
     end
 
-    def view_bikes
-        list = []
-        @bikes.each {|i| list << "#{i.name}: " + (i.working? ? "Working" : "Broken")} 
-        return list.join("|")                 
-    end
-
     private
     
     def working_bikes
