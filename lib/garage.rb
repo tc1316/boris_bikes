@@ -1,13 +1,11 @@
 require_relative "./bike.rb"
-require_relative "./ds.rb"
 require_relative "./van.rb"
 require_relative "./bike_container.rb"
-require_relative "./bike.rb"
 
 class Garage
     include BikeContainer
     
-    def release_bike_to_van(bike=nil,van)
+    def release_bike_to_van(bike,van)
         if bike.working? && van.is_a?(Van)
             remove_bike(bike)
             van.add_bike(bike)

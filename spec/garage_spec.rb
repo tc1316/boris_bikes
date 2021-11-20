@@ -11,23 +11,18 @@ describe Garage do
     let(:van) { Van.new }
 
     describe "tests:" do
-        it "should be able to call fix method on broken bikes" do
+        it "should be able to fix broken bikes" do
             garage.add_bike(broken_bike)
             expect(broken_bike).to receive :report_fixed
             garage.fix_bike(broken_bike)
         end    
-        it "should fix bikes upon receiving them" do
+        it "should fix broken bikes upon receiving them from a van" do
             van.add_bike(broken_bike)
             garage.accept_bike_from_van(broken_bike,van)
             expect(broken_bike.working).to eq(true)
-        end
-        it "should dock broken bikes from a van and fix them once docked" do
-            van.add_bike(broken_bike)
-            garage.accept_bike_from_van(broken_bike,van)
-            expect(garage.view_bikes).to eq("002: Working")
             expect(van.view_bikes).to be_empty
         end
-        it "should be able to release working bikes to a van" do
+        it "should release working bikes to a van" do
             garage.add_bike(bike)
             garage.release_bike_to_van(bike,van)
             expect(van.view_bikes).to eq("001: Working")

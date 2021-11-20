@@ -1,3 +1,5 @@
+require "bike"
+
 module BikeContainer
   DEFAULT_CAPACITY = 20
 
@@ -12,6 +14,7 @@ module BikeContainer
     raise "#{self.class.name} empty" if empty?
     bikes.delete(bike)
     return bike
+    #Could implement something like if bike=nil, do @bikes.pop
   end
 
   def add_bike(bike)

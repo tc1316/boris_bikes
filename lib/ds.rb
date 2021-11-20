@@ -1,14 +1,11 @@
 require_relative "./bike.rb"
-require_relative "./van.rb"
 require_relative "./bike_container.rb"
 
 class DockingStation
     include BikeContainer
     
-    def release_bike(bike=nil)
-        fail "DockingStation empty" if working_bikes.empty?
-        #else
-        working_bikes.delete(bike)
+    def release_bike(bike) 
+        working_bikes.delete(bike) #Delete from working_bikes list when removing a bike
         remove_bike(bike)
     end
 
