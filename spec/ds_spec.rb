@@ -1,27 +1,26 @@
 require "ds"
 require "bike"
+require "support/shared_examples_for_bike_container"
+
 
 describe DockingStation do
-    subject(:station) { described_class.new}
+    it_behaves_like BikeContainer
+    subject(:station) { described_class.new }
     let(:name) { "001" }
     let(:name2) { "002" }
     let(:bike) { bike = double(:bike, name: name, :working? => true) }
     let(:broken_bike) { bike = double(:bike, name: name2, :working? => false) }
 
-    describe "DockingStation tests" do
-        it "should be able to dock a bike" do
+    describe "tests:" do
+        it "should be able to show us docked bikes" do
             station.dock(bike)
-            expect(station.bikelist).to include(bike)
+            expect(station.view_bikes).to eq("001: Working")
         end
-        it "should be able to show us the docked bikes" do
-            station.dock(bike)
-            expect(station.view_bikes).to eq("001: Working? true")
-        end
-        it "Shouldn't release a bike when the dock is empty" do 
-            expect{station.release_bike}.to raise_error("There are no bikes left")
+        it "shouldn't release a bike when the dock is empty" do 
+            expect{station.release_bike}.to raise_error("DockingStation empty")
         end
         it "shouldn't dock a bike if docking station is full" do
-            expect{(DockingStation::DEFAULT_CAPACITY+1).times{station.dock(bike)}}.to raise_error("There is no room to dock!")
+            expect{(DockingStation::DEFAULT_CAPACITY+1).times{station.dock(bike)}}.to raise_error("DockingStation full")
         end
         it "it should let you assign a custom capacity" do
             expect(DockingStation.new(5).capacity).to eq(5)
@@ -31,19 +30,19 @@ describe DockingStation do
         end
         it "should know if bikes are broken" do
             station.dock(broken_bike)
-            expect(station.bikelist[0]).not_to be_working
+            expect(station.view_bikes).to eq("002: Broken")
         end
         it "should accept returning bikes whether broken or not" do
             station.dock(bike)
             station.dock(broken_bike)
-            expect(station.bikelist).to match_array([bike,broken_bike])
+            expect(station.view_bikes).to eq("001: Working|002: Broken")
         end
         it "should only release working bikes" do
             station.dock(bike)
             station.dock(broken_bike)
             station.release_bike(bike)
-            expect(station.bikelist).to match_array([broken_bike])
-            expect{station.release_bike(broken_bike)}.to raise_error("Bike selected is not working!")
+            expect(station.view_bikes).to eq("002: Broken")
         end
+        
     end
 end

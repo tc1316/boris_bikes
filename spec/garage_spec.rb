@@ -1,6 +1,6 @@
 require "ds"
 require "bike"
-require "van2"
+require "van"
 require "garage"
 
 describe Garage do
